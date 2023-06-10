@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "819430790099",
+    "project_id": "adofferapp-58f65",
+    "storage_bucket": "adofferapp-58f65.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819430790099:android:3e428704d6d4fe9a309526",
+        "android_client_info": {
+          "package_name": "com.example.ad_offer_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "819430790099-3dnlr0nrgggap2at2ge3tlgfkni5org1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChuVeje_d9eiuB4OeCortUvGEQ3b_bra4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "819430790099-3dnlr0nrgggap2at2ge3tlgfkni5org1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
