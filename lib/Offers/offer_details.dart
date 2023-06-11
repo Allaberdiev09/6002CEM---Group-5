@@ -326,6 +326,28 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                           ),
                         ),
                         dividerWidget(),
+                        const Text(
+                          'Offer Status',
+                          style: TextStyle(
+                            color: Color(0xffdcdbdb),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          state == null ? '' : state!,
+                          maxLines: 3,
+                          style: const TextStyle(
+                            color: Color(0xffdcdbdb),
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 21,
+                          ),
+                        ),
+                        dividerWidget(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -9,7 +9,6 @@ import '../Services/global_variables.dart';
 import '../CommonWidgets/bottom_nav_bar.dart';
 
 class UploadOfferNow extends StatefulWidget {
-
   @override
   State<UploadOfferNow> createState() => _UploadOfferNowState();
 }
@@ -134,7 +133,7 @@ return Padding(
                        Icons.arrow_right_alt_outlined,
                        color: Color(0xffdcdbdb),
                      ),
-                     const SizedBox(width: 8),  // Add a SizedBox to create some space between the icon and the text.
+                     const SizedBox(width: 8),
                      Expanded(
                        child: Padding(
                          padding: const EdgeInsets.all(8.0),
@@ -144,7 +143,7 @@ return Padding(
                              color: Color(0xffdcdbdb),
                              fontSize: 16,
                            ),
-                           overflow: TextOverflow.ellipsis,  // Optional: Handle overflow with an ellipsis.
+                           overflow: TextOverflow.ellipsis,
                          ),
                        ),
                      ),

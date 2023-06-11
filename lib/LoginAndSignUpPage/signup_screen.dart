@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -255,13 +254,13 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                               width: size.width * 0.24,
                               height: size.width *0.24,
                               decoration: BoxDecoration(
-                                border: Border.all(width: 1, color: Colors.cyanAccent,),
+                                border: Border.all(width: 3, color: Color(0xfff1f1f1),),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
                                 child: imageFile == null
-                                  ? const Icon(Icons.camera_enhance_sharp, color: Colors.cyan, size: 30,)
+                                  ? const Icon(Icons.camera_enhance_sharp, color: Color(0xfff1f1f1), size: 34,)
                                   : Image.file(imageFile!, fit: BoxFit.fill,),
                               ),
                             ),

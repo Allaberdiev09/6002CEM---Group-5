@@ -114,6 +114,14 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Categories categoriesObject = Categories();
+    categoriesObject.getMyData();
+  }
+
   _showStateListDialog({required Size size})
   {
     showDialog(

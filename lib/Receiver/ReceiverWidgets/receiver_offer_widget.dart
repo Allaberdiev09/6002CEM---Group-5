@@ -1,4 +1,3 @@
-
 import 'package:ad_offer_app/Receiver/offer_details_receiver.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,7 +35,6 @@ class ReceiverOfferWidget extends StatefulWidget {
 
 class _ReceiverOfferWidgetState extends State<ReceiverOfferWidget> {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   _deleteDialog()
   {

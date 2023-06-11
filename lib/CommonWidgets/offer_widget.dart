@@ -1,6 +1,4 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ad_offer_app/Offers/offer_details.dart';
@@ -36,7 +34,6 @@ class OfferWidget extends StatefulWidget {
 
 class _OfferWidgetState extends State<OfferWidget> {
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   _deleteDialog()
   {
@@ -150,7 +147,7 @@ class _OfferWidgetState extends State<OfferWidget> {
             ),
           ],
         ),
-        trailing: Icon(
+        trailing: const Icon(
           Icons.keyboard_arrow_right,
           size: 30,
           color: Color(0xffeae9e9),

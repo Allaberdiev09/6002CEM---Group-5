@@ -58,7 +58,7 @@ class _OfferScreenState extends State<OfferScreen> {
                             Icons.arrow_right_alt_outlined,
                             color: Color(0xffdcdbdb),
                           ),
-                          const SizedBox(width: 8),  // Add a SizedBox to create some space between the icon and the text.
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -68,7 +68,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   color: Color(0xffdcdbdb),
                                   fontSize: 16,
                                 ),
-                                overflow: TextOverflow.ellipsis,  // Optional: Handle overflow with an ellipsis.
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
@@ -112,6 +112,14 @@ class _OfferScreenState extends State<OfferScreen> {
     );
   }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Categories categoriesObject = Categories();
+    categoriesObject.getMyData();
+  }
+
   _showStateListDialog({required Size size})
   {
     showDialog(
@@ -152,7 +160,7 @@ class _OfferScreenState extends State<OfferScreen> {
                             Icons.arrow_right_alt_outlined,
                             color: Color(0xffdcdbdb),
                           ),
-                          const SizedBox(width: 8),  // Add a SizedBox to create some space between the icon and the text.
+                          const SizedBox(width: 8),
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -161,7 +169,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   color: Color(0xffdcdbdb),
                                   fontSize: 16,
                                 ),
-                                overflow: TextOverflow.ellipsis,  // Optional: Handle overflow with an ellipsis.
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),

@@ -12,7 +12,6 @@ class MyApp extends StatelessWidget {
 
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
                 body: Center(
                   child: Text('App is being initialized',
                     style: TextStyle(
-                        color: Colors.cyan,
+                        color: Color(0xff06938f),
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins-Medium'

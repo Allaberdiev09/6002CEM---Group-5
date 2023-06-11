@@ -83,7 +83,7 @@ class BottomNavigationBarForApp extends StatelessWidget {
         Icon(Icons.person_pin, size: 21, color: Color(0xffdcdbdb),),
         Icon(Icons.exit_to_app, size: 21, color: Color(0xffdcdbdb),),
       ],
-      animationDuration: Duration(
+      animationDuration: const Duration(
         milliseconds: 250,
       ),
       animationCurve: Curves.bounceInOut,
