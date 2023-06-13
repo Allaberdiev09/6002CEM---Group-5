@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ad_offer_app/ProfilePage/profile_sender.dart';
 
 class ChatWidget extends StatefulWidget {
-
   final String chatId;
   final String writerId;
   final String writerName;
@@ -15,14 +14,13 @@ class ChatWidget extends StatefulWidget {
     required this.writerName,
     required this.writerBody,
     required this.writerImageUrl,
-});
+  });
 
   @override
   State<ChatWidget> createState() => _ChatWidgetState();
 }
 
 class _ChatWidgetState extends State<ChatWidget> {
-
   final List<Color> _colors = [
     Color(0xed8a69a8),
     Color(0xd758a84d),
@@ -32,8 +30,12 @@ class _ChatWidgetState extends State<ChatWidget> {
   Widget build(BuildContext context) {
     _colors.shuffle();
     return InkWell(
-      onTap: (){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProfileScreenSender(userID: widget.writerId)));
+      onTap: () {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ProfileScreenSender(userID: widget.writerId)));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,7 +59,9 @@ class _ChatWidgetState extends State<ChatWidget> {
               ),
             ),
           ),
-          const SizedBox(width: 6,),
+          const SizedBox(
+            width: 6,
+          ),
           Flexible(
             flex: 5,
             child: Column(

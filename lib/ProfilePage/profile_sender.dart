@@ -5,19 +5,15 @@ import 'package:ad_offer_app/user_state.dart';
 import '../CommonWidgets/bottom_nav_bar.dart';
 
 class ProfileScreenSender extends StatefulWidget {
-
   final String userID;
 
-  const ProfileScreenSender({
-    required this.userID
-});
+  const ProfileScreenSender({required this.userID});
 
   @override
   State<ProfileScreenSender> createState() => _ProfileScreenSenderState();
 }
 
 class _ProfileScreenSenderState extends State<ProfileScreenSender> {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String? name;
@@ -28,8 +24,7 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
   bool _isLoading = false;
   bool _isSameUser = false;
 
-  void getUserData() async
-  {
+  void getUserData() async {
     try {
       _isLoading = true;
       final DocumentSnapshot userDoc = await FirebaseFirestore.instance
@@ -39,8 +34,7 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
 
       if (userDoc == null) {
         return;
-      }
-      else {
+      } else {
         setState(() {
           name = userDoc.get('name');
           email = userDoc.get('email');
@@ -56,8 +50,8 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
           _isSameUser = _uid == widget.userID;
         });
       }
-    }
-    catch (error) {} finally {
+    } catch (error) {
+    } finally {
       _isLoading = false;
     }
   }
@@ -89,14 +83,12 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
     );
   }
 
-  void _logout(context)
-  {
+  void _logout(context) {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     showDialog(
         context: context,
-        builder: (context)
-        {
+        builder: (context) {
           return AlertDialog(
             backgroundColor: Color(0xe50e638d),
             title: Row(
@@ -130,20 +122,26 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
                 onPressed: () {
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('No', style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: const Text(
+                  'No',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
               ),
               TextButton(
                 onPressed: () {
                   _auth.signOut();
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => UserState()));
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => UserState()));
                 },
-                child: const Text('Yes', style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
               ),
             ],
           );
-        }
-    );
+        });
   }
 
   @override
@@ -152,7 +150,7 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xffe1e1e1),Color(0xffc0c0c0)],
+          colors: [Color(0xffe1e1e1), Color(0xffc0c0c0)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           stops: [0.2, 0.9],
@@ -163,159 +161,161 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
         backgroundColor: Colors.transparent,
         body: Center(
           child: _isLoading
-              ?
-              const Center(
-                child: CircularProgressIndicator(),
-              )
-              :
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: Stack(
-                    children: [
-                      Card(
-                        color: Color(0xc50e638d),
-                        margin: const EdgeInsets.all(30),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 100,
-                              ),
-                              Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  name == null
-                                      ?
-                                      'Name here'
-                                      :
-                                      name!,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 24.0
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 0),
+                    child: Stack(
+                      children: [
+                        Card(
+                          color: Color(0xc50e638d),
+                          margin: const EdgeInsets.all(30),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 100,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    name == null ? 'Name here' : name!,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 24.0),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 15,),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 30,),
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
-                                  'Account Information :',
-                                  style: TextStyle(
-                                    color: Colors.white54,
-                                    fontSize: 22.0,
-                                  ),
+                                const SizedBox(
+                                  height: 15,
                                 ),
-                              ),
-                              const SizedBox(height: 15,),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: userInfo(
-                                  icon: Icons.email,
-                                  content: email
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.white,
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: userInfo(
-                                    icon: Icons.phone,
-                                    content: phoneNumber
+                                const SizedBox(
+                                  height: 30,
                                 ),
-                              ),
-                              const SizedBox(height: 15,),
-                              const Divider(
-                                thickness: 1,
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 35,),
-                              !_isSameUser
-                              ?
-                              Container()
-                              :
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(bottom: 30),
-                                  child: MaterialButton(
-                                    onPressed: (){
-                                      _logout(context);
-                                    },
-                                    color: Color(0xff189dbd),
-                                    elevation: 8,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(13),
+                                const Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Account Information :',
+                                    style: TextStyle(
+                                      color: Colors.white54,
+                                      fontSize: 22.0,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(vertical: 14),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: const [
-                                          Text(
-                                            'Logout',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Poppins-Medium',
-                                              fontSize: 28,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: userInfo(
+                                      icon: Icons.email, content: email),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: userInfo(
+                                      icon: Icons.phone, content: phoneNumber),
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                const Divider(
+                                  thickness: 1,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(
+                                  height: 35,
+                                ),
+                                !_isSameUser
+                                    ? Container()
+                                    : Center(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 30),
+                                          child: MaterialButton(
+                                            onPressed: () {
+                                              _logout(context);
+                                            },
+                                            color: Color(0xff189dbd),
+                                            elevation: 8,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(13),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 14),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: const [
+                                                  Text(
+                                                    'Logout',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontFamily:
+                                                          'Poppins-Medium',
+                                                      fontSize: 28,
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 8,
+                                                  ),
+                                                  Icon(
+                                                    Icons.logout_rounded,
+                                                    size: 28,
+                                                    color: Colors.white,
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          SizedBox(width: 8,),
-                                          Icon(
-                                            Icons.logout_rounded,
-                                            size: 28,
-                                            color: Colors.white,
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: size.width * 0.26,
-                            height: size.width * 0.26,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                width: 3.5,
-                                color: Colors.black87,
-                              ),
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  imageUrl == null
-                                      ?
-                                      'https://www.pngitem.com/pimgs/m/579-5798505_user-placeholder-svg-hd-png-download.png'
-                                      :
-                                      imageUrl,
-                                ),
-                                fit: BoxFit.fill,
-                              )
+                              ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: size.width * 0.26,
+                              height: size.width * 0.26,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 3.5,
+                                    color: Colors.black87,
+                                  ),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                      imageUrl == null
+                                          ? 'https://www.pngitem.com/pimgs/m/579-5798505_user-placeholder-svg-hd-png-download.png'
+                                          : imageUrl,
+                                    ),
+                                    fit: BoxFit.fill,
+                                  )),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
         ),
       ),
     );

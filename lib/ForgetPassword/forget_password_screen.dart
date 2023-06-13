@@ -6,19 +6,19 @@ import 'package:ad_offer_app/LoginAndSignUpPage/login_screen.dart';
 import '../Services/global_variables.dart';
 
 class ForgetPassword extends StatefulWidget {
-
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
 }
 
-class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStateMixin{
-
+class _ForgetPasswordState extends State<ForgetPassword>
+    with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  final TextEditingController _forgetPassTextController = TextEditingController(text: '');
+  final TextEditingController _forgetPassTextController =
+      TextEditingController(text: '');
 
   @override
   void dispose() {
@@ -31,29 +31,28 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 20));
     _animation =
-    CurvedAnimation(parent: _animationController, curve: Curves.linear)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((animationStatus) {
-        if (animationStatus == AnimationStatus.completed) {
-          _animationController.reset();
-          _animationController.forward();
-        }
-      });
+        CurvedAnimation(parent: _animationController, curve: Curves.linear)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((animationStatus) {
+            if (animationStatus == AnimationStatus.completed) {
+              _animationController.reset();
+              _animationController.forward();
+            }
+          });
     _animationController.forward();
     super.initState();
   }
 
-  void _forgetPassSubmitForm() async
-  {
-    try
-        {
-          await _auth.sendPasswordResetEmail(
-            email: _forgetPassTextController.text,
-          );
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => Login()));
-        }catch(error){
+  void _forgetPassSubmitForm() async {
+    try {
+      await _auth.sendPasswordResetEmail(
+        email: _forgetPassTextController.text,
+      );
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => Login()));
+    } catch (error) {
       Fluttertoast.showToast(msg: error.toString());
     }
   }
@@ -66,9 +65,9 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
         children: [
           CachedNetworkImage(
             imageUrl: forgetUrlImage,
-              placeholder: (context, url) => Image.asset(
-                  'assets/images/wallpaper.jpg',
-                fit: BoxFit.fill,
+            placeholder: (context, url) => Image.asset(
+              'assets/images/wallpaper.jpg',
+              fit: BoxFit.fill,
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
             width: double.infinity,
@@ -92,9 +91,9 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                     fontSize: 55,
                   ),
                 ),
-
-                const SizedBox(height: 10,),
-
+                const SizedBox(
+                  height: 10,
+                ),
                 const Text(
                   'Email address',
                   style: TextStyle(
@@ -103,9 +102,9 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                     fontSize: 20,
                   ),
                 ),
-
-                const SizedBox(height: 20,),
-
+                const SizedBox(
+                  height: 20,
+                ),
                 TextField(
                   controller: _forgetPassTextController,
                   decoration: const InputDecoration(
@@ -119,21 +118,20 @@ class _ForgetPasswordState extends State<ForgetPassword> with TickerProviderStat
                     ),
                   ),
                 ),
-
-                const SizedBox(height: 60,),
-
+                const SizedBox(
+                  height: 60,
+                ),
                 MaterialButton(
-                    onPressed: ()
-                    {
-                      _forgetPassSubmitForm();
-                    },
+                  onPressed: () {
+                    _forgetPassSubmitForm();
+                  },
                   color: Color(0xff189dbd),
                   elevation: 8,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(13),
                   ),
                   child: const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 14),
+                    padding: EdgeInsets.symmetric(vertical: 14),
                     child: Text(
                       'Reset now',
                       style: TextStyle(

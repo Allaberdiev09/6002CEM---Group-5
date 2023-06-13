@@ -100,13 +100,12 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xfff1f1f1),Color(0xffd0d0d0)],
+          colors: [Color(0xfff1f1f1), Color(0xffd0d0d0)],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           stops: [0.2, 0.9],
@@ -118,7 +117,7 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xff0a78a1),Color(0xff1c5e86)],
+                colors: [Color(0xff0a78a1), Color(0xff1c5e86)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: [0.1, 1.0],
@@ -205,7 +204,9 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                   ),
                                   Text(
                                     locationCompany!,
-                                    style: const TextStyle(color: Color(0xffdcdbdb),),
+                                    style: const TextStyle(
+                                      color: Color(0xffdcdbdb),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -213,98 +214,94 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                           ],
                         ),
                         Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  dividerWidget(),
-                                  const Text(
-                                    'Validity',
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            dividerWidget(),
+                            const Text(
+                              'Validity',
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Color(0xffdcdbdb),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    try {
+                                      FirebaseFirestore.instance
+                                          .collection('offers')
+                                          .doc(widget.offerID)
+                                          .update({'validity': true});
+                                    } catch (error) {
+                                      GlobalMethod.showErrorDialog(
+                                        error: 'Action cannot be performed',
+                                        ctx: context,
+                                      );
+                                    }
+                                    getOfferData();
+                                  },
+                                  child: const Text(
+                                    'ON',
                                     style: TextStyle(
-                                      fontSize: 18,
+                                      fontStyle: FontStyle.italic,
                                       color: Color(0xffdcdbdb),
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal,
                                     ),
                                   ),
-                                  const SizedBox(
-                                    height: 5,
+                                ),
+                                Opacity(
+                                  opacity: validity == true ? 1 : 0,
+                                  child: const Icon(
+                                    Icons.check_box,
+                                    color: Colors.green,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      TextButton(
-                                        onPressed: () {
-                                            try {
-                                              FirebaseFirestore.instance
-                                                  .collection('offers')
-                                                  .doc(widget.offerID)
-                                                  .update(
-                                                      {'validity': true});
-                                            } catch (error) {
-                                              GlobalMethod.showErrorDialog(
-                                                error:
-                                                    'Action cannot be performed',
-                                                ctx: context,
-                                              );
-                                            }
-                                          getOfferData();
-                                        },
-                                        child: const Text(
-                                          'ON',
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            color: Color(0xffdcdbdb),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Opacity(
-                                        opacity: validity == true ? 1 : 0,
-                                        child: const Icon(
-                                          Icons.check_box,
-                                          color: Colors.green,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        width: 40,
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          try {
-                                            FirebaseFirestore.instance
-                                                .collection('offers')
-                                                .doc(widget.offerID)
-                                                .update(
-                                                {'validity': false});
-                                          } catch (error) {
-                                            GlobalMethod.showErrorDialog(
-                                              error:
-                                              'Action cannot be performed',
-                                              ctx: context,
-                                            );
-                                          }
-                                          getOfferData();
-                                        },
-                                        child: const Text(
-                                          'OFF',
-                                          style: TextStyle(
-                                            fontStyle: FontStyle.italic,
-                                            color: Color(0xffdcdbdb),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      Opacity(
-                                        opacity: validity == false ? 1 : 0,
-                                        child: const Icon(
-                                          Icons.check_box,
-                                          color: Colors.redAccent,
-                                        ),
-                                      ),
-                                    ],
+                                ),
+                                const SizedBox(
+                                  width: 40,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    try {
+                                      FirebaseFirestore.instance
+                                          .collection('offers')
+                                          .doc(widget.offerID)
+                                          .update({'validity': false});
+                                    } catch (error) {
+                                      GlobalMethod.showErrorDialog(
+                                        error: 'Action cannot be performed',
+                                        ctx: context,
+                                      );
+                                    }
+                                    getOfferData();
+                                  },
+                                  child: const Text(
+                                    'OFF',
+                                    style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      color: Color(0xffdcdbdb),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.normal,
+                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Opacity(
+                                  opacity: validity == false ? 1 : 0,
+                                  child: const Icon(
+                                    Icons.check_box,
+                                    color: Colors.redAccent,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                         dividerWidget(),
                         const Text(
                           'Offer Description',
@@ -367,13 +364,11 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                             ),
                           ],
                         ),
-
                       ],
                     ),
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(4.0),
                 child: Card(
@@ -388,7 +383,7 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                             milliseconds: 500,
                           ),
                           child: _isChatting
-                        ? Row(
+                              ? Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Flexible(
@@ -404,15 +399,13 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                         decoration: const InputDecoration(
                                           filled: true,
                                           fillColor: Color(0xffececec),
-                                          enabledBorder:
-                                              UnderlineInputBorder(
+                                          enabledBorder: UnderlineInputBorder(
                                             borderSide:
                                                 BorderSide(color: Colors.white),
                                           ),
-                                          focusedBorder:
-                                              OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.redAccent),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.redAccent),
                                           ),
                                         ),
                                       ),
@@ -424,39 +417,52 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 8),
                                             child: MaterialButton(
-                                              onPressed: () async{
-                                                if(_chatController.text.length < 0)
-                                                  {
-                                                    GlobalMethod.showErrorDialog(
-                                                      error: 'Message cannot empty',
-                                                      ctx: context,
-                                                    );
-                                                  }
-                                                else
-                                                  {
-                                                    final _generatedId = const Uuid().v4();
-                                                    await FirebaseFirestore.instance
-                                                    .collection('offers')
-                                                    .doc(widget.offerID)
-                                                    .update({
-                                                      'offerChat':
-                                                          FieldValue.arrayUnion([{
-                                                            'userId': FirebaseAuth.instance.currentUser!.uid,
-                                                            'chatId': _generatedId,
-                                                            'name': name,
-                                                            'userImageUrl': userImage,
-                                                            'chatBody': _chatController.text,
-                                                            'time': Timestamp.now(),
-                                                          }]),
-                                                    });
-                                                    await Fluttertoast.showToast(
-                                                      msg: 'Your message has been sent',
-                                                      toastLength: Toast.LENGTH_LONG,
-                                                      backgroundColor: Colors.grey,
-                                                      fontSize: 18.0,
-                                                    );
-                                                    _chatController.clear();
-                                                  }
+                                              onPressed: () async {
+                                                if (_chatController
+                                                        .text.length <
+                                                    0) {
+                                                  GlobalMethod.showErrorDialog(
+                                                    error:
+                                                        'Message cannot empty',
+                                                    ctx: context,
+                                                  );
+                                                } else {
+                                                  final _generatedId =
+                                                      const Uuid().v4();
+                                                  await FirebaseFirestore
+                                                      .instance
+                                                      .collection('offers')
+                                                      .doc(widget.offerID)
+                                                      .update({
+                                                    'offerChat':
+                                                        FieldValue.arrayUnion([
+                                                      {
+                                                        'userId': FirebaseAuth
+                                                            .instance
+                                                            .currentUser!
+                                                            .uid,
+                                                        'chatId': _generatedId,
+                                                        'name': name,
+                                                        'userImageUrl':
+                                                            userImage,
+                                                        'chatBody':
+                                                            _chatController
+                                                                .text,
+                                                        'time': Timestamp.now(),
+                                                      }
+                                                    ]),
+                                                  });
+                                                  await Fluttertoast.showToast(
+                                                    msg:
+                                                        'Your message has been sent',
+                                                    toastLength:
+                                                        Toast.LENGTH_LONG,
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    fontSize: 18.0,
+                                                  );
+                                                  _chatController.clear();
+                                                }
                                                 setState(() {
                                                   showChat = true;
                                                 });
@@ -485,7 +491,9 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                               });
                                             },
                                             child: const Text(
-                                              'Cancel', style: TextStyle(color: Colors.white),
+                                              'Cancel',
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                         ],
@@ -493,8 +501,7 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                     ),
                                   ],
                                 )
-                        :
-                          Row(
+                              : Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     IconButton(
@@ -528,54 +535,60 @@ class _OfferDetailScreenState extends State<OfferDetailScreen> {
                                 ),
                         ),
                         showChat == false
-                            ?
-                            Container()
-                            :
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: FutureBuilder<DocumentSnapshot>(
-                                future: FirebaseFirestore.instance
-                                    .collection('offers')
-                                    .doc(widget.offerID)
-                                    .get(),
-                                builder: (context, snapshot)
-                                {
-                                  if(snapshot.connectionState == ConnectionState.waiting)
-                                    {
-                                      return const Center(child: CircularProgressIndicator(),);
-                                    }
-                                  else
-                                  {
-                                    if(snapshot.data == null)
-                                      {
-                                        const Center(child: Text('No messages yet'),);
+                            ? Container()
+                            : Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: FutureBuilder<DocumentSnapshot>(
+                                  future: FirebaseFirestore.instance
+                                      .collection('offers')
+                                      .doc(widget.offerID)
+                                      .get(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    } else {
+                                      if (snapshot.data == null) {
+                                        const Center(
+                                          child: Text('No messages yet'),
+                                        );
                                       }
-                                  }
-                                  return ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index)
-                                    {
-                                      return ChatWidget(
-                                        chatId: snapshot.data!['offerChat'] [index]['chatId'],
-                                        writerId: snapshot.data!['offerChat'] [index]['userId'],
-                                        writerName: snapshot.data!['offerChat'] [index]['name'],
-                                        writerBody: snapshot.data!['offerChat'] [index]['chatBody'],
-                                        writerImageUrl: snapshot.data!['offerChat'] [index]['userImageUrl'],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index)
-                                    {
-                                      return const Divider(
-                                        thickness: 1,
-                                        color: Color(0xffececec),
-                                      );
-                                    },
-                                    itemCount: snapshot.data!['offerChat'].length,
-                                  );
-                                },
+                                    }
+                                    return ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        return ChatWidget(
+                                          chatId: snapshot.data!['offerChat']
+                                              [index]['chatId'],
+                                          writerId: snapshot.data!['offerChat']
+                                              [index]['userId'],
+                                          writerName:
+                                              snapshot.data!['offerChat'][index]
+                                                  ['name'],
+                                          writerBody:
+                                              snapshot.data!['offerChat'][index]
+                                                  ['chatBody'],
+                                          writerImageUrl:
+                                              snapshot.data!['offerChat'][index]
+                                                  ['userImageUrl'],
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return const Divider(
+                                          thickness: 1,
+                                          color: Color(0xffececec),
+                                        );
+                                      },
+                                      itemCount:
+                                          snapshot.data!['offerChat'].length,
+                                    );
+                                  },
+                                ),
                               ),
-                            ),
                       ],
                     ),
                   ),

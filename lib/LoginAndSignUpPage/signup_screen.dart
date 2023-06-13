@@ -11,21 +11,24 @@ import 'package:image_picker/image_picker.dart';
 import '../Services/global_variables.dart';
 
 class SignUp extends StatefulWidget {
-
   @override
   State<SignUp> createState() => _SignUpState();
 }
 
-class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
-
+class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   late Animation<double> _animation;
   late AnimationController _animationController;
 
-  final TextEditingController _fullNameController = TextEditingController(text: '');
-  final TextEditingController _emailTextController = TextEditingController(text: '');
-  final TextEditingController _passTextController = TextEditingController(text: '');
-  final TextEditingController _phoneNumberController = TextEditingController(text: '');
-  final TextEditingController _locationController = TextEditingController(text: '');
+  final TextEditingController _fullNameController =
+      TextEditingController(text: '');
+  final TextEditingController _emailTextController =
+      TextEditingController(text: '');
+  final TextEditingController _passTextController =
+      TextEditingController(text: '');
+  final TextEditingController _phoneNumberController =
+      TextEditingController(text: '');
+  final TextEditingController _locationController =
+      TextEditingController(text: '');
 
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passFocusNode = FocusNode();
@@ -60,33 +63,31 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
     _animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 20));
     _animation =
-    CurvedAnimation(parent: _animationController, curve: Curves.linear)
-      ..addListener(() {
-        setState(() {});
-      })
-      ..addStatusListener((animationStatus) {
-        if (animationStatus == AnimationStatus.completed) {
-          _animationController.reset();
-          _animationController.forward();
-        }
-      });
+        CurvedAnimation(parent: _animationController, curve: Curves.linear)
+          ..addListener(() {
+            setState(() {});
+          })
+          ..addStatusListener((animationStatus) {
+            if (animationStatus == AnimationStatus.completed) {
+              _animationController.reset();
+              _animationController.forward();
+            }
+          });
     _animationController.forward();
     super.initState();
   }
 
-  void _showImageDialog()
-  {
+  void _showImageDialog() {
     showDialog(
-      context: context,
-      builder:(context)
-        {
+        context: context,
+        builder: (context) {
           return AlertDialog(
             title: const Text('Please choose an option'),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     _getFromCamera();
                   },
                   child: Row(
@@ -105,9 +106,8 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                     ],
                   ),
                 ),
-
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     _getFromGallery();
                   },
                   child: Row(
@@ -126,90 +126,83 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                     ],
                   ),
                 ),
-
               ],
             ),
           );
-        }
-    );
-  }
-
-  void _getFromCamera() async
-  {
-    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
-    _cropImage(pickedFile!.path);
-    Navigator.pop(context);
-  }
-
-  void _getFromGallery() async
-  {
-    XFile? pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-    _cropImage(pickedFile!.path);
-    Navigator.pop(context);
-  }
-
-  void _cropImage(filePath) async
-  {
-    CroppedFile? croppedImage = await ImageCropper().cropImage(
-        sourcePath: filePath, maxHeight: 1080, maxWidth: 1080
-    );
-
-    if(croppedImage != null)
-      {
-        setState(() {
-          imageFile = File(croppedImage.path);
         });
-      }
   }
 
-  void _submitFormOnSignUp() async
-  {
+  void _getFromCamera() async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _getFromGallery() async {
+    XFile? pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    _cropImage(pickedFile!.path);
+    Navigator.pop(context);
+  }
+
+  void _cropImage(filePath) async {
+    CroppedFile? croppedImage = await ImageCropper()
+        .cropImage(sourcePath: filePath, maxHeight: 1080, maxWidth: 1080);
+
+    if (croppedImage != null) {
+      setState(() {
+        imageFile = File(croppedImage.path);
+      });
+    }
+  }
+
+  void _submitFormOnSignUp() async {
     final isValid = _signUpFormKey.currentState!.validate();
-    if(isValid)
-      {
-        if(imageFile == null)
-        {
-          GlobalMethod.showErrorDialog(
-            error: 'Please pick an image',
-            ctx: context,
-          );
-          return;
-        }
-
-        setState(() {
-          _isLoading = true;
-        });
-
-        try
-        {
-          await _auth.createUserWithEmailAndPassword(
-            email: _emailTextController.text.trim().toLowerCase(),
-            password: _passTextController.text.trim(),
-          );
-          final User? user = _auth.currentUser;
-          final _uid = user!.uid;
-          final ref = FirebaseStorage.instance.ref().child('userImages').child(_uid + '.jpg');
-          await ref.putFile(imageFile!);
-          imageUrl = await ref.getDownloadURL();
-          FirebaseFirestore.instance.collection('users').doc(_uid).set({
-            'id': _uid,
-            'name': _fullNameController.text,
-            'email': _emailTextController.text,
-            'userImage': imageUrl,
-            'phoneNumber': _phoneNumberController.text,
-            'location': _locationController.text,
-            'createdAt': Timestamp.now(),
-            'role': 'sender',
-          });
-          Navigator.canPop(context) ? Navigator.pop(context) : null;
-        }catch(error)
-         {
-           setState(() {
-             _isLoading = false;
-           });
-           GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
-         }
+    if (isValid) {
+      if (imageFile == null) {
+        GlobalMethod.showErrorDialog(
+          error: 'Please pick an image',
+          ctx: context,
+        );
+        return;
       }
+
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        await _auth.createUserWithEmailAndPassword(
+          email: _emailTextController.text.trim().toLowerCase(),
+          password: _passTextController.text.trim(),
+        );
+        final User? user = _auth.currentUser;
+        final _uid = user!.uid;
+        final ref = FirebaseStorage.instance
+            .ref()
+            .child('userImages')
+            .child(_uid + '.jpg');
+        await ref.putFile(imageFile!);
+        imageUrl = await ref.getDownloadURL();
+        FirebaseFirestore.instance.collection('users').doc(_uid).set({
+          'id': _uid,
+          'name': _fullNameController.text,
+          'email': _emailTextController.text,
+          'userImage': imageUrl,
+          'phoneNumber': _phoneNumberController.text,
+          'location': _locationController.text,
+          'createdAt': Timestamp.now(),
+          'role': 'sender',
+        });
+        Navigator.canPop(context) ? Navigator.pop(context) : null;
+      } catch (error) {
+        setState(() {
+          _isLoading = false;
+        });
+        GlobalMethod.showErrorDialog(error: error.toString(), ctx: context);
+      }
+    }
     setState(() {
       _isLoading = false;
     });
@@ -244,42 +237,51 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: ()
-                          {
+                          onTap: () {
                             _showImageDialog();
                           },
                           child: Padding(
-                              padding: EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(8.0),
                             child: Container(
                               width: size.width * 0.24,
-                              height: size.width *0.24,
+                              height: size.width * 0.24,
                               decoration: BoxDecoration(
-                                border: Border.all(width: 3, color: Color(0xfff1f1f1),),
+                                border: Border.all(
+                                  width: 3,
+                                  color: Color(0xfff1f1f1),
+                                ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
                                 child: imageFile == null
-                                  ? const Icon(Icons.camera_enhance_sharp, color: Color(0xfff1f1f1), size: 34,)
-                                  : Image.file(imageFile!, fit: BoxFit.fill,),
+                                    ? const Icon(
+                                        Icons.camera_enhance_sharp,
+                                        color: Color(0xfff1f1f1),
+                                        size: 34,
+                                      )
+                                    : Image.file(
+                                        imageFile!,
+                                        fit: BoxFit.fill,
+                                      ),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocusNode),
+                          onEditingComplete: () => FocusScope.of(context)
+                              .requestFocus(_emailFocusNode),
                           keyboardType: TextInputType.name,
                           controller: _fullNameController,
-                          validator: (value){
-                            if(value!.isEmpty)
-                            {
-                            return 'This field is missing';
-                            }
-                            else
-                            {
-                            return null;
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'This field is missing';
+                            } else {
+                              return null;
                             }
                           },
                           style: const TextStyle(color: Colors.white),
@@ -297,19 +299,19 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context).requestFocus(_passFocusNode),
+                          onEditingComplete: () => FocusScope.of(context)
+                              .requestFocus(_passFocusNode),
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailTextController,
-                          validator: (value){
-                            if(value!.isEmpty || !value.contains('@'))
-                            {
+                          validator: (value) {
+                            if (value!.isEmpty || !value.contains('@')) {
                               return 'Please enter a valid email address';
-                            }
-                            else
-                            {
+                            } else {
                               return null;
                             }
                           },
@@ -328,20 +330,20 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneNumberFocusNode),
+                          onEditingComplete: () => FocusScope.of(context)
+                              .requestFocus(_phoneNumberFocusNode),
                           keyboardType: TextInputType.visiblePassword,
                           controller: _passTextController,
                           obscureText: !_obsecureText, //change it dynamically
-                          validator: (value){
-                            if(value!.isEmpty || value.length < 7)
-                            {
+                          validator: (value) {
+                            if (value!.isEmpty || value.length < 7) {
                               return 'Please enter a valid password';
-                            }
-                            else{
+                            } else {
                               return null;
                             }
                           },
@@ -373,21 +375,19 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 20,),
-
+                        const SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
+                          onEditingComplete: () => FocusScope.of(context)
+                              .requestFocus(_positionCPFocusNode),
                           keyboardType: TextInputType.phone,
                           controller: _phoneNumberController,
-                          validator: (value){
-                            if(value!.isEmpty)
-                            {
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return 'This Field is missing';
-                            }
-                            else
-                            {
+                            } else {
                               return null;
                             }
                           },
@@ -406,19 +406,19 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20,),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         TextFormField(
                           textInputAction: TextInputAction.next,
-                          onEditingComplete: () => FocusScope.of(context).requestFocus(_positionCPFocusNode),
+                          onEditingComplete: () => FocusScope.of(context)
+                              .requestFocus(_positionCPFocusNode),
                           keyboardType: TextInputType.text,
                           controller: _locationController,
-                          validator: (value){
-                            if(value!.isEmpty)
-                            {
+                          validator: (value) {
+                            if (value!.isEmpty) {
                               return 'This Field is missing';
-                            }
-                            else
-                            {
+                            } else {
                               return null;
                             }
                           },
@@ -437,75 +437,72 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin{
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 10,),
+                        const SizedBox(
+                          height: 10,
+                        ),
                         _isLoading
-                        ?
-                            Center(
-                              child: Container(
-                                width: 70,
-                                height: 70,
-                                child: CircularProgressIndicator(),
-                              ),
-                            )
-                        :
-                        MaterialButton(
-                          onPressed: (){
-                            _submitFormOnSignUp();
-                          },
-                          color: Colors.cyan,
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'SignUp',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                            ? Center(
+                                child: Container(
+                                  width: 70,
+                                  height: 70,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : MaterialButton(
+                                onPressed: () {
+                                  _submitFormOnSignUp();
+                                },
+                                color: Colors.cyan,
+                                elevation: 8,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13),
+                                ),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 14),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'SignUp',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                        const SizedBox(
+                          height: 40,
                         ),
-                        const SizedBox(height: 40,),
-
                         Center(
                           child: RichText(
-                            text: TextSpan(
-                              children: [
-                                const TextSpan(
-                                  text: 'Already have an account?',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            text: TextSpan(children: [
+                              const TextSpan(
+                                text: 'Already have an account?',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const TextSpan(
-                                  text: '     '
-                                ),
-                                TextSpan(
-                                  recognizer: TapGestureRecognizer()
-                                      ..onTap = () => Navigator.canPop(context)
+                              ),
+                              const TextSpan(text: '     '),
+                              TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => Navigator.canPop(context)
                                       ? Navigator.pop(context)
                                       : null,
-                                  text: 'Login',
-                                  style: const TextStyle(
-                                    color: Colors.cyan,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                text: 'Login',
+                                style: const TextStyle(
+                                  color: Colors.cyan,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              ]
-                            ),
+                              ),
+                            ]),
                           ),
                         ),
                       ],

@@ -12,25 +12,21 @@ class OfferScreen extends StatefulWidget {
 }
 
 class _OfferScreenState extends State<OfferScreen> {
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String? offerCategoryFilter;
   String? offerStatusFilter;
 
-  _showTaskCategoriesDialog({required Size size})
-  {
+  _showTaskCategoriesDialog({required Size size}) {
     showDialog(
         context: context,
-        builder: (ctx)
-        {
+        builder: (ctx) {
           return AlertDialog(
             backgroundColor: Color(0xe50e638d),
             title: const Text(
               'Offer Category',
               textAlign: TextAlign.center,
-              style:
-              TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
               ),
@@ -40,17 +36,18 @@ class _OfferScreenState extends State<OfferScreen> {
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: Categories.offerCategoryList.length,
-                  itemBuilder: (ctx, index)
-                  {
+                  itemBuilder: (ctx, index) {
                     return InkWell(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          offerCategoryFilter = Categories.offerCategoryList[index];
+                          offerCategoryFilter =
+                              Categories.offerCategoryList[index];
                         });
-                        Navigator.canPop(context) ? Navigator.pop(context) : null;
+                        Navigator.canPop(context)
+                            ? Navigator.pop(context)
+                            : null;
                         print(
-                            'offerCategoryList[index], ${Categories.offerCategoryList[index]}'
-                        );
+                            'offerCategoryList[index], ${Categories.offerCategoryList[index]}');
                       },
                       child: Row(
                         children: [
@@ -75,41 +72,39 @@ class _OfferScreenState extends State<OfferScreen> {
                         ],
                       ),
                     );
-                  }
-              ),
+                  }),
             ),
             actions: [
               TextButton(
-                onPressed: ()
-                {
+                onPressed: () {
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('Close', style:
-                TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               TextButton(
-                onPressed: ()
-                {
+                onPressed: () {
                   setState(() {
                     offerCategoryFilter = null;
                   });
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('Cancel Filter', style:
-                TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                child: const Text(
+                  'Cancel Filter',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
           );
-        }
-    );
+        });
   }
 
   @override
@@ -120,19 +115,16 @@ class _OfferScreenState extends State<OfferScreen> {
     categoriesObject.getMyData();
   }
 
-  _showStateListDialog({required Size size})
-  {
+  _showStateListDialog({required Size size}) {
     showDialog(
         context: context,
-        builder: (ctx)
-        {
+        builder: (ctx) {
           return AlertDialog(
             backgroundColor: Color(0xe50e638d),
             title: const Text(
               'Filter Offer Status',
               textAlign: TextAlign.center,
-              style:
-              TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 color: Colors.white,
               ),
@@ -142,17 +134,18 @@ class _OfferScreenState extends State<OfferScreen> {
               child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: OfferStateList.offerStateList.length,
-                  itemBuilder: (ctx, index)
-                  {
+                  itemBuilder: (ctx, index) {
                     return InkWell(
-                      onTap: (){
+                      onTap: () {
                         setState(() {
-                          offerStatusFilter = OfferStateList.offerStateList[index];
+                          offerStatusFilter =
+                              OfferStateList.offerStateList[index];
                         });
-                        Navigator.canPop(context) ? Navigator.pop(context) : null;
+                        Navigator.canPop(context)
+                            ? Navigator.pop(context)
+                            : null;
                         print(
-                            'offerStateList[index], ${OfferStateList.offerStateList[index]}'
-                        );
+                            'offerStateList[index], ${OfferStateList.offerStateList[index]}');
                       },
                       child: Row(
                         children: [
@@ -164,7 +157,8 @@ class _OfferScreenState extends State<OfferScreen> {
                           Expanded(
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(OfferStateList.offerStateList[index],
+                              child: Text(
+                                OfferStateList.offerStateList[index],
                                 style: const TextStyle(
                                   color: Color(0xffdcdbdb),
                                   fontSize: 16,
@@ -176,43 +170,40 @@ class _OfferScreenState extends State<OfferScreen> {
                         ],
                       ),
                     );
-                  }
-              ),
+                  }),
             ),
             actions: [
               TextButton(
-                onPressed: ()
-                {
+                onPressed: () {
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('Close', style:
-                TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                child: const Text(
+                  'Close',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
               TextButton(
-                onPressed: ()
-                {
+                onPressed: () {
                   setState(() {
                     offerStatusFilter = null;
                   });
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('Cancel Filter', style:
-                TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
+                child: const Text(
+                  'Cancel Filter',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ],
           );
-        }
-    );
+        });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +211,7 @@ class _OfferScreenState extends State<OfferScreen> {
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xffe0e0e0),Color(0xfff8f8f8)],
+          colors: [Color(0xffe0e0e0), Color(0xfff8f8f8)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           stops: [0.2, 0.9],
@@ -233,7 +224,7 @@ class _OfferScreenState extends State<OfferScreen> {
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xff0a78a1),Color(0xff1c5e86)],
+                colors: [Color(0xff0a78a1), Color(0xff1c5e86)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 stops: [0.1, 1.0],
@@ -280,7 +271,8 @@ class _OfferScreenState extends State<OfferScreen> {
               .where('state', isEqualTo: offerStatusFilter)
               .orderBy('createdAt', descending: false)
               .snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          builder: (context,
+              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),

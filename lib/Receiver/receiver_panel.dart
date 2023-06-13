@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ad_offer_app/Categories/categories.dart';
 import 'package:ad_offer_app/Receiver/OfferState/offer_state_list.dart';
 import 'package:ad_offer_app/Receiver/ReceiverWidgets/receiver_offer_widget.dart';
@@ -15,6 +17,8 @@ class ReceiverPanel extends StatefulWidget {
 
 class _ReceiverPanelState extends State<ReceiverPanel> {
 
+  int _backButtonPressedCount = 0;
+  late Timer _backButtonTimer;
   String? offerCategoryFilter;
   String? offerStatusFilter;
 
@@ -114,14 +118,6 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
     );
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Categories categoriesObject = Categories();
-    categoriesObject.getMyData();
-  }
-
   _showStateListDialog({required Size size})
   {
     showDialog(
@@ -216,9 +212,41 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _backButtonTimer = Timer(Duration(seconds: 2), () {
+      _backButtonPressedCount = 0;
+    });
+    Categories categoriesObject = Categories();
+    categoriesObject.getMyData();
+  }
+
+  @override
+  void dispose() {
+    _backButtonTimer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+
+    return WillPopScope(
+      onWillPop: () async {
+        if (_backButtonPressedCount < 1) {
+          // Show a snackbar indicating the need to press back again
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Press back again to exit')),
+          );
+          _backButtonPressedCount++;
+          return false; // Prevent the app from closing
+        } else {
+          return true; // Let the app exit
+        }
+      },
+
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xfff1f1f1),Color(0xffd0d0d0)],
@@ -341,6 +369,7 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
           }
         ),
       ),
+    ),
     );
   }
 }

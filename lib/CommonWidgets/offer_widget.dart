@@ -5,7 +5,6 @@ import 'package:ad_offer_app/Offers/offer_details.dart';
 import 'package:ad_offer_app/Services/global_methods.dart';
 
 class OfferWidget extends StatefulWidget {
-
   final String offerTitle;
   final String offerDescription;
   final String offerId;
@@ -26,28 +25,24 @@ class OfferWidget extends StatefulWidget {
     required this.validity,
     required this.email,
     required this.location,
-});
+  });
 
   @override
   State<OfferWidget> createState() => _OfferWidgetState();
 }
 
 class _OfferWidgetState extends State<OfferWidget> {
-
-
-  _deleteDialog()
-  {
+  _deleteDialog() {
     showDialog(
         context: context,
-        builder: (ctx)
-        {
+        builder: (ctx) {
           return AlertDialog(
             actions: [
               TextButton(
-                onPressed: () async{
-                  try
-                  {
-                    await FirebaseFirestore.instance.collection('offers')
+                onPressed: () async {
+                  try {
+                    await FirebaseFirestore.instance
+                        .collection('offers')
                         .doc(widget.offerId)
                         .delete();
                     await Fluttertoast.showToast(
@@ -57,10 +52,9 @@ class _OfferWidgetState extends State<OfferWidget> {
                       fontSize: 18.0,
                     );
                     Navigator.canPop(context) ? Navigator.pop(context) : null;
-                  }
-                  catch(error)
-                  {
-                    GlobalMethod.showErrorDialog(error: 'This task cannot be completed', ctx: ctx);
+                  } catch (error) {
+                    GlobalMethod.showErrorDialog(
+                        error: 'This task cannot be completed', ctx: ctx);
                   } finally {}
                 },
                 child: Row(
@@ -72,17 +66,14 @@ class _OfferWidgetState extends State<OfferWidget> {
                     ),
                     Text(
                       'Delete',
-                      style: TextStyle(
-                          color: Colors.red
-                      ),
+                      style: TextStyle(color: Colors.red),
                     ),
                   ],
                 ),
               ),
             ],
           );
-        }
-    );
+        });
   }
 
   @override
@@ -92,21 +83,28 @@ class _OfferWidgetState extends State<OfferWidget> {
       elevation: 8,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       child: ListTile(
-        onTap: (){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => OfferDetailScreen(
-            uploadedBy: widget.uploadedBy,
-            offerID: widget.offerId,
-          )));
+        onTap: () {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => OfferDetailScreen(
+                        uploadedBy: widget.uploadedBy,
+                        offerID: widget.offerId,
+                      )));
         },
-        onLongPress: (){
+        onLongPress: () {
           _deleteDialog();
         },
-        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         leading: Container(
           padding: const EdgeInsets.only(right: 12),
           decoration: const BoxDecoration(
             border: Border(
-              right: BorderSide(width: 1, color: Color(0xffeae9e9),),
+              right: BorderSide(
+                width: 1,
+                color: Color(0xffeae9e9),
+              ),
             ),
           ),
           child: Image.network(widget.userImage),
@@ -135,7 +133,9 @@ class _OfferWidgetState extends State<OfferWidget> {
                 fontSize: 13,
               ),
             ),
-            const SizedBox(height: 8,),
+            const SizedBox(
+              height: 8,
+            ),
             Text(
               widget.offerDescription,
               maxLines: 4,

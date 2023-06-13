@@ -7,25 +7,22 @@ import 'package:ad_offer_app/ProfilePage/profile_sender.dart';
 import 'package:ad_offer_app/user_state.dart';
 
 class BottomNavigationBarForApp extends StatelessWidget {
-
   int indexNum = 0;
 
   BottomNavigationBarForApp({required this.indexNum});
 
-  void _logout(context)
-  {
+  void _logout(context) {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     showDialog(
-      context: context,
-      builder: (context)
-        {
+        context: context,
+        builder: (context) {
           return AlertDialog(
             backgroundColor: Color(0xe50e638d),
             title: Row(
               children: const [
                 Padding(
-                    padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Icon(
                     Icons.logout,
                     color: Colors.white,
@@ -33,7 +30,7 @@ class BottomNavigationBarForApp extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                    padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Sign Out',
                     style: TextStyle(color: Colors.white, fontSize: 28),
@@ -53,20 +50,26 @@ class BottomNavigationBarForApp extends StatelessWidget {
                 onPressed: () {
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
                 },
-                child: const Text('No', style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: const Text(
+                  'No',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
               ),
               TextButton(
                 onPressed: () {
                   _auth.signOut();
                   Navigator.canPop(context) ? Navigator.pop(context) : null;
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => UserState()));
+                  Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => UserState()));
                 },
-                child: const Text('Yes', style: TextStyle(color: Colors.white, fontSize: 18),),
+                child: const Text(
+                  'Yes',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
               ),
             ],
           );
-        }
-    );
+        });
   }
 
   @override
@@ -78,37 +81,50 @@ class BottomNavigationBarForApp extends StatelessWidget {
       height: 50,
       index: indexNum,
       items: const [
-        Icon(Icons.list, size: 21, color: Color(0xffdcdbdb),),
-        Icon(Icons.add, size: 21, color: Color(0xffdcdbdb),),
-        Icon(Icons.person_pin, size: 21, color: Color(0xffdcdbdb),),
-        Icon(Icons.exit_to_app, size: 21, color: Color(0xffdcdbdb),),
+        Icon(
+          Icons.list,
+          size: 21,
+          color: Color(0xffdcdbdb),
+        ),
+        Icon(
+          Icons.add,
+          size: 21,
+          color: Color(0xffdcdbdb),
+        ),
+        Icon(
+          Icons.person_pin,
+          size: 21,
+          color: Color(0xffdcdbdb),
+        ),
+        Icon(
+          Icons.exit_to_app,
+          size: 21,
+          color: Color(0xffdcdbdb),
+        ),
       ],
       animationDuration: const Duration(
         milliseconds: 250,
       ),
       animationCurve: Curves.bounceInOut,
-      onTap: (index)
-      {
-        if(index == 0)
-          {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => OfferScreen()));
-          }
-        else if(index == 1)
-        {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => UploadOfferNow()));
-        }
-        else if(index == 2)
-        {
+      onTap: (index) {
+        if (index == 0) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => OfferScreen()));
+        } else if (index == 1) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (_) => UploadOfferNow()));
+        } else if (index == 2) {
           final FirebaseAuth _auth = FirebaseAuth.instance;
           final User? user = _auth.currentUser;
           final String uid = user!.uid;
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ProfileScreenSender(
-            userID: uid,
-          )));
-        }
-        else if(index == 3)
-        {
-        _logout(context);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (_) => ProfileScreenSender(
+                        userID: uid,
+                      )));
+        } else if (index == 3) {
+          _logout(context);
         }
       },
     );
