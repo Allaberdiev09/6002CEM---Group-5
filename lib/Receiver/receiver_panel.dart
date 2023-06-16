@@ -213,6 +213,7 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
 
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
     _backButtonTimer = Timer(Duration(seconds: 2), () {

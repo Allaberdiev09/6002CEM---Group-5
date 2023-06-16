@@ -205,11 +205,15 @@ class _OfferScreenState extends State<OfferScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    Categories categoriesObject = Categories();
+    categoriesObject.getMyData();
+  }
+
+  void initStateBackButton()
+  {
     _backButtonTimer = Timer(Duration(seconds: 2), () {
       _backButtonPressedCount = 0;
     });
-    Categories categoriesObject = Categories();
-    categoriesObject.getMyData();
   }
 
   @override
