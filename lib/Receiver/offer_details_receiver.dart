@@ -38,6 +38,14 @@ class _OfferDetailScreenReceiverState extends State<OfferDetailScreenReceiver> {
   bool showChat = false;
   String? state;
 
+
+  _getBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ReceiverPanel()),
+    );
+  }
+
   void getOfferData() async {
 
     final DocumentSnapshot offerDatabase = await FirebaseFirestore.instance
@@ -119,7 +127,11 @@ class _OfferDetailScreenReceiverState extends State<OfferDetailScreenReceiver> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+        onWillPop: () async {
+      return _getBackToHome();
+    },
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xfff1f1f1),Color(0xffd0d0d0)],
@@ -573,6 +585,7 @@ class _OfferDetailScreenReceiverState extends State<OfferDetailScreenReceiver> {
           ),
         ),
       ),
+    ),
     );
   }
 }

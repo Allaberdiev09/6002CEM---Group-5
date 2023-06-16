@@ -1,3 +1,4 @@
+import 'package:ad_offer_app/Offers/offers_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,13 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
   String joinedAt = '';
   bool _isLoading = false;
   bool _isSameUser = false;
+
+  _getBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => OfferScreen()),
+    );
+  }
 
   void getUserData() async {
     try {
@@ -147,7 +155,11 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return WillPopScope(
+        onWillPop: () async {
+      return _getBackToHome();
+    },
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xffe1e1e1), Color(0xffc0c0c0)],
@@ -318,6 +330,7 @@ class _ProfileScreenSenderState extends State<ProfileScreenSender> {
                 ),
         ),
       ),
+    ),
     );
   }
 }

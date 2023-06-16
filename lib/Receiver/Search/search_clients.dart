@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ad_offer_app/Receiver/ReceiverWidgets/all_clients_widget.dart';
 
+import '../receiver_panel.dart';
+
 class AllClientsScreen extends StatefulWidget {
   @override
   State<AllClientsScreen> createState() => _AllClientsScreenState();
@@ -11,6 +13,13 @@ class AllClientsScreen extends StatefulWidget {
 class _AllClientsScreenState extends State<AllClientsScreen> {
   final TextEditingController _searchQueryController = TextEditingController();
   String searchQuery = '';
+
+  _getBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ReceiverPanel()),
+    );
+  }
 
   Widget _buildSearchField() {
     return TextField(
@@ -56,7 +65,11 @@ class _AllClientsScreenState extends State<AllClientsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: () async {
+        return _getBackToHome();
+      },
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xfff1f1f1),Color(0xffd0d0d0)],
@@ -135,6 +148,7 @@ class _AllClientsScreenState extends State<AllClientsScreen> {
           },
         ),
       ),
+    ),
     );
   }
 }

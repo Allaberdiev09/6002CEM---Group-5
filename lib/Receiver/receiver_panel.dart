@@ -234,7 +234,7 @@ class _ReceiverPanelState extends State<ReceiverPanel> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (_backButtonPressedCount < 1) {
+        if (_backButtonPressedCount < 2) {
           // Show a snackbar indicating the need to press back again
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Press back again to exit')),

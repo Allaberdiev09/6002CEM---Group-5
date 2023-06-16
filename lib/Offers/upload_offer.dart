@@ -1,3 +1,4 @@
+import 'package:ad_offer_app/Offers/offers_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,15 @@ class _UploadOfferNowState extends State<UploadOfferNow> {
 
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+
+
+  _getBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => OfferScreen()),
+    );
+  }
+
 
   @override
   void dispose() {
@@ -245,7 +255,11 @@ class _UploadOfferNowState extends State<UploadOfferNow> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return WillPopScope(
+        onWillPop: () async {
+      return _getBackToHome();
+    },
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xfff1f1f1), Color(0xffd0d0d0)],
@@ -377,6 +391,7 @@ class _UploadOfferNowState extends State<UploadOfferNow> {
           ),
         ),
       ),
+    ),
     );
   }
 }

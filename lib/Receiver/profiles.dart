@@ -1,5 +1,6 @@
 
 import 'package:ad_offer_app/Receiver/ReceiverWidgets/receiver_bottom_nav_bar.dart';
+import 'package:ad_offer_app/Receiver/receiver_panel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,13 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
   String joinedAt = '';
   bool _isLoading = false;
   bool _isSameUser = false;
+
+  _getBackToHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => ReceiverPanel()),
+    );
+  }
 
   void getUserData() async
   {
@@ -197,7 +205,11 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return WillPopScope(
+      onWillPop: () async {
+        return _getBackToHome();
+      },
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xffe1e1e1),Color(0xffc0c0c0)],
@@ -397,6 +409,7 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
               ),
         ),
       ),
+    ),
     );
   }
 }

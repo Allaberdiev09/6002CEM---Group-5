@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ad_offer_app/Categories/categories.dart';
 import 'package:ad_offer_app/Receiver/OfferState/offer_state_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,6 +16,8 @@ class OfferScreen extends StatefulWidget {
 class _OfferScreenState extends State<OfferScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  int _backButtonPressedCount = 0;
+  late Timer _backButtonTimer;
   String? offerCategoryFilter;
   String? offerStatusFilter;
 
@@ -107,14 +111,6 @@ class _OfferScreenState extends State<OfferScreen> {
         });
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Categories categoriesObject = Categories();
-    categoriesObject.getMyData();
-  }
-
   _showStateListDialog({required Size size}) {
     showDialog(
         context: context,
@@ -206,9 +202,40 @@ class _OfferScreenState extends State<OfferScreen> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _backButtonTimer = Timer(Duration(seconds: 2), () {
+      _backButtonPressedCount = 0;
+    });
+    Categories categoriesObject = Categories();
+    categoriesObject.getMyData();
+  }
+
+  @override
+  void dispose() {
+    _backButtonTimer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Container(
+    return WillPopScope(
+        onWillPop: () async {
+      if (_backButtonPressedCount < 2) {
+        // Show a snackbar indicating the need to press back again
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Press back again to exit')),
+        );
+        _backButtonPressedCount++;
+        return false; // Prevent the app from closing
+      } else {
+        return true; // Let the app exit
+      }
+    },
+
+    child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xffe0e0e0), Color(0xfff8f8f8)],
@@ -314,6 +341,7 @@ class _OfferScreenState extends State<OfferScreen> {
           },
         ),
       ),
+    ),
     );
   }
 }
